@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group 'eu.senla.mix.qa'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.8.0'
+    implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'webdriver.chrome.driver', project.driver
+    systemProperty 'baseUrl', project.baseUrl
+    systemProperty 'user', project.user
+    systemProperty 'password', project.password
+}
+
