@@ -38,11 +38,11 @@ public class OrderProductTest {
 
    @Test
    public void orderProduct(){
-      openHomePage();
-      logIn();
-      String itemToAdd = getItem();
-      addToCart(itemToAdd);
-      goToCart();
+
+      InventoryPage inventoryPage = new HomePage(driver).load().logIn();
+      String itemToAdd = inventoryPage.getItem();
+      inventoryPage.addToCart(itemToAdd).goToCart();
+
       checkItemInCart(itemToAdd);
       checkout();
       fillInUserForm();
@@ -50,23 +50,6 @@ public class OrderProductTest {
       finishOrder();
    }
 
-   private void openHomePage(){
-      driver.get(System.getProperty("baseUrl"));
-   }
-
-   private void logIn(){
-      driver.findElement(By.id("user-name")).sendKeys(System.getProperty("user"));
-      driver.findElement(By.id("password")).sendKeys(System.getProperty("password"));
-      driver.findElement(By.id("login-button")).click();
-   }
-
-   private void addToCart(String item) {
-      driver.findElement(By.xpath("//div[text()='"+ item +"']/ancestor::div[@class='inventory_item_label']/following-sibling::div/child::button")).click();
-   }
-
-   private void goToCart(){
-      driver.findElement(By.cssSelector(".shopping_cart_link")).click();
-   }
 
    private void checkItemInCart(String itemToAdd){
     WebElement item = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("inventory_item_name")));
@@ -76,13 +59,6 @@ public class OrderProductTest {
             () -> assertEquals(itemInCart, itemToAdd),
             () -> assertEquals("1", itemQuantity)
     );
-   }
-
-   private String getItem(){
-      List<WebElement> items = driver.findElements(By.xpath("//div[@class='inventory_item_name']"));
-      List<String> itemsName = items.stream().map(WebElement::getText).collect(Collectors.toList());
-      Random rand = new Random();
-      return itemsName.get(rand.nextInt(itemsName.size()));
    }
 
    private void checkout() {
