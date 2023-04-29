@@ -4,9 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 public class InventoryPage extends BasePage {
 
@@ -21,9 +23,9 @@ public class InventoryPage extends BasePage {
     }
 
     public String getItem(){
-        List<String> itemsName = items.stream().map(WebElement::getText).toList();
-        Random rand = new Random();
-        return itemsName.get(rand.nextInt(itemsName.size()));
+       List<String> itemsName = items.stream().map(WebElement::getText).collect(Collectors.toList());
+        Collections.shuffle(itemsName);
+        return itemsName.get(0);
     }
 
     public InventoryPage addToCart(String item) {
