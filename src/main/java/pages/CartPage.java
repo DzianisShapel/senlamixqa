@@ -17,6 +17,9 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//span[@class='shopping_cart_badge']")
     WebElement cartBadge;
 
+    @FindBy(xpath = "//div[@class='removed_cart_item']")
+    WebElement removedItem;
+
     public CartPage(WebDriver driver) {
         super(driver);
     }
@@ -31,7 +34,7 @@ public class CartPage extends BasePage {
         return this;
     }
 
-    public Boolean isCartBadgeDisplayed(){
-       return cartBadge.isDisplayed();
+    public Boolean isItemRemoved(){
+       return removedItem.isDisplayed();
     }
 }

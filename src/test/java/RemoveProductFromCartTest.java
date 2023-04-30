@@ -1,32 +1,24 @@
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.CartPage;
 import pages.HomePage;
 import pages.InventoryPage;
 
-import java.time.Duration;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @DisplayName("Check correct removing item from cart")
 public class RemoveProductFromCartTest {
     private WebDriver driver;
 
-    private WebDriverWait wait;
 
     @BeforeAll
     public void startDriver() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @AfterAll
@@ -41,7 +33,7 @@ public class RemoveProductFromCartTest {
         String itemToAdd = inventoryPage.getItem();
         String itemInCart = inventoryPage.addToCart(itemToAdd).goToCart().getItemInCart();
         checkCart(itemToAdd, itemInCart);
-      //  checkCartAfterRemoving(inventoryPage.goToCart());
+        checkCartAfterRemoving(inventoryPage.goToCart());
     }
 
     private void checkCart(String itemToAdd, String itemInCart) {
@@ -49,7 +41,7 @@ public class RemoveProductFromCartTest {
     }
 
     private void checkCartAfterRemoving(CartPage cartPage) {
-        assertFalse(cartPage.removeItemFromCart().isCartBadgeDisplayed());
+       assertFalse(cartPage.removeItemFromCart().isItemRemoved());
     }
 
 }
