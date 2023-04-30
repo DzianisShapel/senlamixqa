@@ -1,18 +1,21 @@
 package pages;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutCompletePage extends BasePage{
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
-    private By completeHeader = By.cssSelector(".complete-header");
-    public CheckoutCompletePage(WebDriver driver) {
-        super(driver);
+public class CheckoutCompletePage {
+
+    private SelenideElement completeHeader = $(".complete-header");
+
+
+    public void checkOrderStatus(){
+        completeHeader.shouldHave(text("Thank you for your order!"));
     }
 
-    public String getCheckoutStatus() {
-        return driver.findElement(completeHeader).getText();
-    }
 
 
 }

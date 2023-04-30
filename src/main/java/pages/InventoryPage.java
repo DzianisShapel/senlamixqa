@@ -1,35 +1,39 @@
 package pages;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-public class InventoryPage extends BasePage{
+import static com.codeborne.selenide.Selenide.*;
 
-    private By item = By.xpath("//div[@class='inventory_item_name']");
+public class InventoryPage {
 
-    private By cartLink = By.cssSelector(".shopping_cart_link");
+    private ElementsCollection items = $$x("//div[@class='inventory_item_name']");
+    private SelenideElement cartLink = $(".shopping_cart_link");
 
-    public InventoryPage(WebDriver driver){
-        super(driver);
+
+
+    public InventoryPage(){
+
     }
 
     public String getItem(){
-        List<WebElement> items = driver.findElements(item);
-        List<String> itemsName = items.stream().map(WebElement::getText).toList();
+        List<String> itemsName = items.texts();
         Random rand = new Random();
         return itemsName.get(rand.nextInt(itemsName.size()));
     }
 
     public InventoryPage addToCart(String item) {
-        driver.findElement(By.xpath("//div[text()='"+ item +"']/ancestor::div[@class='inventory_item_label']/following-sibling::div/child::button")).click();
+        $x("//div[text()='" + item + "']/ancestor::div[@class='inventory_item_label']/following-sibling::div/child::button").click();
         return this;
     }
 
     public CartPage goToCart(){
-        driver.findElement(cartLink).click();
-        return new CartPage(driver);
+        cartLink.click();
+        return new CartPage();
     }
 }

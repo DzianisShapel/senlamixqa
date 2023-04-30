@@ -14,42 +14,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("User flow for ordering product")
 public class OrderProductTest {
 
-   private WebDriver driver;
-
-   @BeforeAll
-   public void startDriver() {
-      ChromeOptions options = new ChromeOptions();
-      options.addArguments("--remote-allow-origins=*");
-      driver = new ChromeDriver(options);
-   }
-
-   @AfterAll
-   public void tearDown(){
-      driver.quit();
-   }
-
    @Test
    public void orderProduct(){
-      InventoryPage inventoryPage = new HomePage(driver).load().logIn();
+      InventoryPage inventoryPage = new HomePage().openHomePage().logIn();
       String itemToAdd = inventoryPage.getItem();
-      Map<String, String> map = inventoryPage.addToCart(itemToAdd).goToCart().getItemFromCart(itemToAdd);
-      checkItemInCart(map, itemToAdd);
-      CheckoutStepTwoPage checkoutStepTwoPage = inventoryPage.goToCart().checkout().fillInUserForm();
-      String itemBeingOrdered = checkoutStepTwoPage.getItemBeingOrdered();
-      validateCheckoutForm(itemBeingOrdered, itemToAdd);
-      checkOrderCompletion(checkoutStepTwoPage.finishOrder().getCheckoutStatus());
-   }
-
-   private void checkItemInCart(Map<String, String> map, String itemToAdd){
-          assertAll(
-            () -> assertEquals(itemToAdd, map.get("name")),
-            () -> assertEquals("1", map.get("quantity"))
-    );
-   }
-   private void validateCheckoutForm(String itemBeingOrdered, String itemToAdd) {
-      assertEquals(itemToAdd, itemBeingOrdered);
-   }
-   private void checkOrderCompletion(String checkoutStatus) {
-      assertEquals( "Thank you for your order!", checkoutStatus);
+      inventoryPage
+              .addToCart(itemToAdd)
+              .goToCart()
+              .checkItemInCart(itemToAdd)
+              .checkout()
+              .fillInUserForm()
+              .checkOrderedItem(itemToAdd)
+              .finishOrder()
+              .checkOrderStatus();
    }
 }

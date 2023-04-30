@@ -1,24 +1,26 @@
 package pages;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutStepTwoPage extends BasePage{
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
-    private By itemBeingOrdered = By.className("inventory_item_name");
+public class CheckoutStepTwoPage {
 
-    private By finish = By.id("finish");
-    public CheckoutStepTwoPage(WebDriver driver) {
-        super(driver);
-    }
+    private SelenideElement itemBeingOrdered = $(By.className("inventory_item_name"));
 
-    public String getItemBeingOrdered(){
-        return driver.findElement(itemBeingOrdered).getText();
+    private SelenideElement finish = $(By.id("finish"));
+
+    public CheckoutStepTwoPage checkOrderedItem(String itemName){
+        itemBeingOrdered.shouldHave(text(itemName));
+        return this;
     }
 
     public CheckoutCompletePage finishOrder(){
-        driver.findElement(finish).click();
-        return new CheckoutCompletePage(driver);
+        finish.click();
+        return new CheckoutCompletePage();
     }
 
 }

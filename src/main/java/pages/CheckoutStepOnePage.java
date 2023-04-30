@@ -1,29 +1,30 @@
 package pages;
 
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.selector.ByDeepShadow;
 import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class CheckoutStepOnePage extends BasePage{
-    public CheckoutStepOnePage(WebDriver driver) {
-        super(driver);
-    }
+import static com.codeborne.selenide.Selenide.$;
 
-    private By firstName = By.id("first-name");
+public class CheckoutStepOnePage {
 
-    private By lastName = By.id("last-name");
+    private SelenideElement firstName = $(By.id("first-name"));
 
-    private By postalCode = By.id("postal-code");
+    private SelenideElement lastName = $(By.id("last-name"));
 
-    private By continueButton = By.id("continue");
+    private SelenideElement postalCode = $(By.id("postal-code"));
+
+    private SelenideElement continueButton = $(By.id("continue"));
 
 
     public CheckoutStepTwoPage fillInUserForm() {
-        driver.findElement(firstName).sendKeys(new Faker().name().firstName());
-        driver.findElement(lastName).sendKeys(new Faker().name().lastName());
-        driver.findElement(postalCode).sendKeys(new Faker().address().zipCode());
-        driver.findElement(continueButton).click();
-        return new CheckoutStepTwoPage(driver);
+        firstName.sendKeys(new Faker().name().firstName());
+        lastName.sendKeys(new Faker().name().lastName());
+        postalCode.sendKeys(new Faker().address().zipCode());
+        continueButton.click();
+        return new CheckoutStepTwoPage();
     }
 
 

@@ -1,28 +1,38 @@
 package pages;
 
+
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-public class HomePage extends BasePage{
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.*;
 
-    private By username = By.id("user-name");
-    private By password = By.id("password");
-    private By loginButton = By.id("login-button");
+public class HomePage {
 
-    public HomePage(WebDriver driver){
-        super(driver);
-    }
+    private SelenideElement username = $(By.id("user-name"));
 
-    public HomePage load(){
-        driver.get(System.getProperty("baseUrl"));
+    private SelenideElement password = $(By.id("password"));
+
+    private SelenideElement loginButton = $(By.id("login-button"));
+
+    private SelenideElement title = $x("//span[@class='title']");
+
+
+    public HomePage openHomePage(){
+        open(System.getProperty("baseUrl"));
         return this;
     }
 
     public InventoryPage logIn(){
-        driver.findElement(username).sendKeys(System.getProperty("user"));
-        driver.findElement(password).sendKeys(System.getProperty("password"));
-        driver.findElement(loginButton).click();
-        return new InventoryPage(driver);
+        username.sendKeys(System.getProperty("user"));
+        password.sendKeys(System.getProperty("password"));
+        loginButton.click();
+        return new InventoryPage();
+    }
+
+    public HomePage checkTitle(){
+        title.shouldHave(text("Products"));
+        return this;
     }
 
 }
