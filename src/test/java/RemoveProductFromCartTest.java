@@ -33,7 +33,8 @@ public class RemoveProductFromCartTest {
         String itemToAdd = inventoryPage.getItem();
         String itemInCart = inventoryPage.addToCart(itemToAdd).goToCart().getItemInCart();
         checkCart(itemToAdd, itemInCart);
-        checkCartAfterRemoving(inventoryPage.goToCart());
+        CartPage cartPage = inventoryPage.goToCart().removeItemFromCart();
+        checkCartAfterRemoving(cartPage);
     }
 
     private void checkCart(String itemToAdd, String itemInCart) {
@@ -41,7 +42,7 @@ public class RemoveProductFromCartTest {
     }
 
     private void checkCartAfterRemoving(CartPage cartPage) {
-       assertFalse(cartPage.removeItemFromCart().isItemRemoved());
+       assertTrue(cartPage.isItemRemoved());
     }
 
 }

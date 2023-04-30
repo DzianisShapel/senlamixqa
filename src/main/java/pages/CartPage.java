@@ -35,6 +35,6 @@ public class CartPage extends BasePage {
     }
 
     public Boolean isItemRemoved(){
-       return removedItem.isDisplayed();
+       return !removedItem.isDisplayed();
     }
 }
