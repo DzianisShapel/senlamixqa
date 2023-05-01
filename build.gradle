@@ -9,11 +9,21 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    slf4jVersion  = '2.0.7'
+    junitPlatformSuiteVersion = '1.9.3'
+}
+
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.8.0'
+    testImplementation("org.junit.platform:junit-platform-suite:${junitPlatformSuiteVersion}")
+    implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    implementation group: 'com.codeborne', name: 'selenide', version: '6.13.1'
     implementation group: 'com.github.javafaker', name: 'javafaker', version: '1.0.2'
+    implementation group: 'io.cucumber', name: 'cucumber-core', version: '7.11.2'
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: '7.12.0'
+    testImplementation group: 'io.cucumber', name: 'cucumber-junit-platform-engine', version: '7.12.0'
 }
 
 test {
