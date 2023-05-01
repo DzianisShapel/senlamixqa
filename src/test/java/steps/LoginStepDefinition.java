@@ -10,9 +10,9 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class LoginStepDefinition {
 
-    @Given("^user navigates to login page by opening Chrome$")
-    public static void openApp(){
-        open("https://www.saucedemo.com/");
+    @Given("user navigates to login page {string} by opening Chrome")
+    public static void openApp(String baseUrl){
+        open(baseUrl);
     }
 
     @When("^user enters correct (.*) AND (.*) values$")
