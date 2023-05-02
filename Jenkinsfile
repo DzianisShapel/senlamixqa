@@ -11,6 +11,5 @@ pipeline{
 					bat './gradlew clean test'
 				}
 		}
-
     }
 }
