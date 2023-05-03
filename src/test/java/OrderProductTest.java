@@ -107,4 +107,6 @@ public class OrderProductTest {
       driver.findElement(By.id("finish")).click();
       assertEquals( "Thank you for your order!", driver.findElement(By.cssSelector(".complete-header")).getText());
    }
+
+   //ddad
 }
